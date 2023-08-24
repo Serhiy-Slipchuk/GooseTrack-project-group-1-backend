@@ -1,3 +1,4 @@
 const { middlewareRegister } = require("./middlewareRegister");
+const { middlewareLogin } = require("./middlewareLogin");
 
-module.exports = { middlewareRegister };
+module.exports = { middlewareRegister, middlewareLogin };
