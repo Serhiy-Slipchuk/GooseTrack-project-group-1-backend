@@ -9,12 +9,9 @@ const registerController = async (req, res) => {
 
     const hashPassword = await bcrypt.hash(password, 9);
 
-    const verificationToken = crypto.randomBytes(32).toString("hex");
-
     const newUser = await User.create({
       ...req.body,
       password: hashPassword,
-      verificationToken,
     });
 
     res.status(201).json({
