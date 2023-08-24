@@ -24,6 +24,16 @@ app.use("/api/v1/reviews", reviewsRouter);
 app.use("/api/v1/tasks", tasksRouter);
 app.use("/api/v1", usersRouter);
 
+// ================================================= SWAGGER =========================================
+
+const swaggerUi = require("swagger-ui-express");
+
+const swaggerDocument = require("./swagger.json")
+
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// ================================================= ERROR CATCHERS =========================================
+
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
