@@ -1,5 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
+const cors = require("cors");
 
 require("colors").enable();
 require("dotenv").config();
@@ -13,8 +14,11 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 // =============================================== MIDDLEWARES =========================================
 app.use(logger(formatsLogger));
+app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+// ================================================= ROUTES =========================================
 
 app.use("/api/v1/reviews", reviewsRouter);
 app.use("/api/v1/tasks", tasksRouter);
