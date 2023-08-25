@@ -3,14 +3,6 @@ const { User } = require("../../models/user");
 const updateUserController = async (req, res) => {
   const { _id } = req.user;
 
-  if (req.body.role && req.user.role !== "admin") {
-    res.status(423).json({
-      status: 423,
-      message: `Locked. You have no necessary permissions to update user role`,
-    });
-    return;
-  }
-
   try {
     const updatedUser = await User.findByIdAndUpdate(
       _id,
