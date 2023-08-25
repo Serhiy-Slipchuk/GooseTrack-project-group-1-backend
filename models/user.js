@@ -52,7 +52,7 @@ const userSchema = new Schema(
 
 const User = model("user", userSchema);
 
-// ------------------------------------------------ JOI SCHEMA ------------------------------------------------
+// ------------------------------------------------ JOI SCHEMAS ------------------------------------------------
 const registerUserJoiSchema = Joi.object({
   name: Joi.string().min(3).max(30).required(),
   email: Joi.string().email().required(),
@@ -64,8 +64,20 @@ const loginUserJoiSchema = Joi.object({
   password: Joi.string().min(3).max(30).required(),
 });
 
+const updateUserJoiSchema = Joi.object({
+  name: Joi.string().min(3).max(30),
+  email: Joi.string().email(),
+  avatarURL: Joi.string().min(10),
+  phone: Joi.string().min(13).max(20),
+  skype: Joi.string().min(3),
+  birthdate: Joi.string().min(10),
+  role: Joi.string().valid('admin', 'user'),
+  theme: Joi.string().valid('light', 'dark'),
+});
+
 module.exports = {
   User,
   registerUserJoiSchema,
   loginUserJoiSchema,
+  updateUserJoiSchema
 };
