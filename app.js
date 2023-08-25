@@ -20,9 +20,9 @@ app.use(express.static("public"));
 
 // ================================================= ROUTES =========================================
 
+app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/reviews", reviewsRouter);
 app.use("/api/v1/tasks", tasksRouter);
-app.use("/api/v1", usersRouter);
 
 // ================================================= SWAGGER =========================================
 

@@ -5,12 +5,14 @@ const {
   middlewareRegister,
   middlewareLogin,
   middlewareAuth,
+  middlewareUpdateUser
 } = require("../middlewares/users");
 const {
   registerController,
   loginController,
   logoutController,
   currentUserController,
+  updateUserController
 } = require("../controllers/users");
 
 router.get("/", (req, res) => {
@@ -20,5 +22,6 @@ router.post("/register", middlewareRegister, registerController);
 router.post("/login", middlewareLogin, loginController);
 router.post("/logout", middlewareAuth, logoutController);
 router.get("/current", middlewareAuth, currentUserController);
+router.patch("/user", middlewareAuth, middlewareUpdateUser, updateUserController)
 
 module.exports = router;
