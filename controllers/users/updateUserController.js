@@ -3,6 +3,10 @@ const { User } = require("../../models/user");
 const updateUserController = async (req, res) => {
   const { _id } = req.user;
 
+  if (req.file.path) {
+    req.body.avatarURL = req.file.path;
+  }
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       _id,
