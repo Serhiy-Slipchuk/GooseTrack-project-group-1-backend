@@ -10,6 +10,7 @@ const {
   registerController,
   loginController,
   logoutController,
+  currentUserController,
 } = require("../controllers/users");
 
 router.get("/", (req, res) => {
@@ -18,5 +19,6 @@ router.get("/", (req, res) => {
 router.post("/register", middlewareRegister, registerController);
 router.post("/login", middlewareLogin, loginController);
 router.post("/logout", middlewareAuth, logoutController);
+router.get("/current", middlewareAuth, currentUserController);
 
 module.exports = router;
