@@ -1,4 +1,4 @@
-const { updateUserJoiSchema } = require("../../models/user");
+const { updateUserJoiSchema } = require("../models/user");
 
 const middlewareUpdateUser = async (req, res, next) => {
   if (req.body.role && req.user.role !== "admin") {
