@@ -1,4 +1,4 @@
-const { registerUserJoiSchema } = require("../../models/user");
+const { registerUserJoiSchema } = require("../models/user");
 
 const middlewareRegister = async (req, res, next) => {
   try {

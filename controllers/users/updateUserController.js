@@ -3,12 +3,8 @@ const { User } = require("../../models/user");
 const updateUserController = async (req, res) => {
   const { _id } = req.user;
 
-  if (req.body.role && req.user.role !== "admin") {
-    res.status(423).json({
-      status: 423,
-      message: `Locked. You have no necessary permissions to update user role`,
-    });
-    return;
+  if (req.file.path) {
+    req.body.avatarURL = req.file.path;
   }
 
   try {

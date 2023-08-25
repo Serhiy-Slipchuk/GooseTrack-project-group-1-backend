@@ -1,4 +1,4 @@
-const { loginUserJoiSchema } = require("../../models/user");
+const { loginUserJoiSchema } = require("../models/user");
 
 const middlewareLogin = async (req, res, next) => {
   try {
