@@ -11,16 +11,19 @@ cloudinary.config({
 const cloudStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
+
     let folder;
     if (file.fieldname === "avatarURL") {
       folder = "avatars";
     } else {
       folder = "temp";
     }
+
     return {
       folder: folder,
       allowed_formats: ["jpg", "png", "webp"],
-      public_id: file.originalname,
+      public_id: req.user._id,
+      transformation: [{ width: 260, height: 260, crop: "thumb" }]
     };
   },
 });
@@ -28,7 +31,7 @@ const cloudStorage = new CloudinaryStorage({
 const upload = multer({
   storage: cloudStorage,
   limits: {
-    fileSize: 1 * 1024 * 1024,
+    fileSize: 3 * 1024 * 1024,
   },
 });
 
