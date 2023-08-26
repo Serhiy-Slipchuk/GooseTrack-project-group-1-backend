@@ -3,7 +3,7 @@ const { User } = require("../../models/user");
 const updateUserController = async (req, res) => {
   const { _id } = req.user;
 
-  if (req.file.path) {
+  if (req.file?.path) {
     req.body.avatarURL = req.file.path;
   }
 
@@ -24,7 +24,7 @@ const updateUserController = async (req, res) => {
         avatarURL: updatedUser.avatarURL,
         phone: updatedUser.phone,
         skype: updatedUser.skype,
-        birthdate: updatedUser.birthday,
+        birthday: updatedUser.birthday,
         role: updatedUser.role,
         theme: updatedUser.theme,
         createdAt: updatedUser.createdAt,

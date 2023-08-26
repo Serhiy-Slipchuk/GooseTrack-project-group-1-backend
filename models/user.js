@@ -70,7 +70,7 @@ const updateUserJoiSchema = Joi.object({
   avatarURL: Joi.string().min(10),
   phone: Joi.string().min(13).max(20),
   skype: Joi.string().min(3),
-  birthdate: Joi.string().min(10),
+  birthday: Joi.string().min(10),
   role: Joi.string().valid('admin', 'user'),
   theme: Joi.string().valid('light', 'dark'),
 });
