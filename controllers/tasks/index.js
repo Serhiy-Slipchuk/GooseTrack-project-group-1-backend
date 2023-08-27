@@ -7,5 +7,5 @@ module.exports = {
     getTasksController,
     addTaskController,
     removeTaskController,
-    updateTaskController
+    updateTaskController,
 };
