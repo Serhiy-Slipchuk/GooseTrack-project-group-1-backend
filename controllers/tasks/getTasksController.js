@@ -1,4 +1,6 @@
 const { Task } = require("../../models/task");
+const controllerWrapper = require("../../helpers/controllerWrapper");
+
 
 const getTasksController = async (req, res) => {
     const {_id: owner} = req.user;
@@ -7,4 +9,6 @@ const getTasksController = async (req, res) => {
     res.json(result);
 };
 
-module.exports = { getTasksController };
+module.exports = { 
+    getTasksController: controllerWrapper(getTasksController)
+};
