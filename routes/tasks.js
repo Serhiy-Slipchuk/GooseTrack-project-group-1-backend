@@ -3,7 +3,7 @@ const router = express.Router();
 const { middlewareAuth } = require("../middlewares");
 const { 
   getTasksController,
-  addTaskController } = require("../controllers/tasks");
+  addTaskController } = require("../controllers");
 
 
 // router.get("/", (req, res) => {
