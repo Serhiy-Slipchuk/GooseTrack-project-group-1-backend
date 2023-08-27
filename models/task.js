@@ -1,6 +1,8 @@
 const { model, Schema } = require("mongoose");
 const Joi = require("joi");
 
+const dateRegexp = /^\d{4}-\d{2}-\d{2}$/;
+
 // ------------------------------------ MONGOOSE SCHEMA --------------------------------------
 
 const taskSchema = new Schema(
@@ -25,6 +27,7 @@ const taskSchema = new Schema(
         },
         date: {
             type: String,
+            match: dateRegexp,
             required: true,
         },
         category: {
