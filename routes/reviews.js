@@ -4,11 +4,9 @@ const router = express.Router();
 
 const { middlewareAuth, middlewareAddReview } = require("../middlewares");
 
-const { addReviewController } = require("../controllers/reviews");
+const { addReviewController, getAllReviewsController } = require("../controllers/reviews");
 
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "Test REVIEWS endpoint" });
-});
+router.get("/", getAllReviewsController);
 router.post("/own", middlewareAuth, middlewareAddReview, addReviewController);
 
 module.exports = router;

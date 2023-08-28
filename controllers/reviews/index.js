@@ -1,3 +1,4 @@
 const { addReviewController } = require("./addReviewController");
+const { getAllReviewsController } = require("./getAllReviewsController")
 
-module.exports = { addReviewController };
+module.exports = { addReviewController, getAllReviewsController };
