@@ -16,3 +16,4 @@ module.exports = {
   validateBody,
   isValidId,
   middlewareAddReview,
+}
