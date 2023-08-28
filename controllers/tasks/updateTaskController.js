@@ -1,15 +1,31 @@
 const { Task } = require("../../models/task");
-const controllerWrapper = require("../../helpers/controllerWrapper");
 
 const updateTaskController = async (req, res) => {
     const {id} = req.params;
-    const result = await Task.findByIdAndUpdate(id, req.body, {new: true});
-    if(!result) {
-      throw HttpError(404, 'Not found');
-    };
-    res.json(result);
-  };
 
-  module.exports = {
-    updateTaskController: controllerWrapper(updateTaskController)
-  };
+    try {
+        const task = await Task.findByIdAndUpdate(id, req.body, {new: true});
+
+    if(!task) {
+      res.status(404).json({ status: 404, message: "Not found" });
+      return;
+    };
+
+    res.status(200).json({
+        status: 200,
+        message: "Success",
+        task: {
+            title: task.title,
+            start: task.start,
+            end: task.end,
+            priority: task.priority,
+            date: task.date,
+            category: task.category,
+        },
+    });
+    } catch (error) {
+        res.status(500).json({ status: 500, message: error.message });
+    }
+};
+
+  module.exports = { updateTaskController };

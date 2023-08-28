@@ -1,5 +1,4 @@
 const { Task } = require("../../models/task");
-const AppError = require("../../services/appError");
 
 const removeTaskController = async (req, res) => {
     const {id} = req.params;
@@ -8,7 +7,8 @@ const removeTaskController = async (req, res) => {
         const result = await Task.findByIdAndRemove(id);
 
     if(!result) {
-        throw AppError(404, "Not found");
+        res.status(401).json({ status: 401, message: "Not authorized" });
+        return;
     };
 
     res.status(200).json({message: "Task deleted"});
