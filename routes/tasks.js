@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { middlewareAuth, validateBody } = require("../middlewares");
+const { middlewareAuth, validateBody, isValidId } = require("../middlewares");
 const { 
   getTasksController,
   addTaskController,
@@ -11,7 +11,7 @@ const { addTaskJoiSchema } = require("../models/task");
 
 router.get("/", middlewareAuth, getTasksController);
 router.post("/", middlewareAuth, validateBody(addTaskJoiSchema), addTaskController);
-router.delete("/:id", middlewareAuth, removeTaskController);
+router.delete("/:id", middlewareAuth, isValidId, removeTaskController);
 router.patch("/:id", middlewareAuth, updateTaskController);
 
 module.exports = router;

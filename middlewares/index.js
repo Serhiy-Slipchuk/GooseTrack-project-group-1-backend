@@ -4,6 +4,7 @@ const { middlewareAuth } = require("./middlewareAuth");
 const { middlewareUpdateUser } = require("./middlewareUpdateUser");
 const { middlewareUploadFile } = require("./middlewareUploadFile");
 const { validateBody } = require("./validateBody");
+const { isValidId } = require("./isValidId");
 
 module.exports = {
   middlewareRegister,
@@ -12,4 +13,5 @@ module.exports = {
   middlewareUpdateUser,
   middlewareUploadFile,
   validateBody,
+  isValidId,
 };

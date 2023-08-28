@@ -1,18 +1,20 @@
 const { Task } = require("../../models/task");
-const controllerWrapper = require("../../helpers/controllerWrapper");
 const AppError = require("../../services/appError");
 
 const removeTaskController = async (req, res) => {
     const {id} = req.params;
 
-    const result = await Task.findByIdAndRemove(id);
+    try {
+        const result = await Task.findByIdAndRemove(id);
+
     if(!result) {
         throw AppError(404, "Not found");
     };
 
-    res.status(200).json({message: "task deleted"});
+    res.status(200).json({message: "Task deleted"});
+    } catch (error) {
+        res.status(500).json({ status: 500, message: error.message });
+    }
 };
 
-module.exports = {
-    removeTaskController: controllerWrapper(removeTaskController)
-};
+module.exports = { removeTaskController };
