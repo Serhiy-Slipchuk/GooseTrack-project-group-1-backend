@@ -1,14 +1,26 @@
 const { Task } = require("../../models/task");
-const controllerWrapper = require("../../helpers/controllerWrapper");
 
 const addTaskController = async (req, res) => {
-    const {_id: owner} = req.user;
-    console.log(req)
-    const result = await Task.create({...req.body, owner});
-    console.log(req)
-    res.status(201).json(result);
+    const { _id: owner } = req.user;
+
+    try {
+        const task = await Task.create({...req.body, owner});
+    
+    res.status(201).json({
+        status: 201,
+        message: "Success",
+        task: {
+            title: task.title,
+            start: task.start,
+            end: task.end,
+            priority: task.priority,
+            date: task.date,
+            category: task.category,
+        },
+    });
+    } catch (error) {
+        res.status(500).json({ status: 500, message: error.message });
+      }
 };
 
-module.exports = { 
-    addTaskController: controllerWrapper(addTaskController) 
-};
+module.exports = { addTaskController };
