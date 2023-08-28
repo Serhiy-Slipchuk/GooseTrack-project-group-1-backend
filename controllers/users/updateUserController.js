@@ -17,7 +17,7 @@ const updateUserController = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: "Success. User update controller",
+      message: "Success. User updated",
       user: {
         name: updatedUser.name,
         email: updatedUser.email,
@@ -34,7 +34,7 @@ const updateUserController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: `User update controller:${error.message}`,
+      message: error.message,
     });
   }
 };
