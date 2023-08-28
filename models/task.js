@@ -51,6 +51,9 @@ const addTaskJoiSchema = Joi.object({
     title: Joi.string().max(250).required(),
     start: Joi.string().required(),
     end: Joi.string().required(),
+    priority: Joi.string().required(),
+    date: Joi.string().pattern(dateRegexp).required(),
+    category: Joi.string().required(),
 });
 
 module.exports = {
