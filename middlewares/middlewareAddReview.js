@@ -1,5 +1,4 @@
-const { Review } = require("../models/review");
-const { addReviewJoiSchema } = require("../models/review");
+const { reviewJoiSchema, Review } = require("../models/review");
 
 const middlewareAddReview = async (req, res, next) => {
   try {
@@ -13,7 +12,7 @@ const middlewareAddReview = async (req, res, next) => {
       return;
     }
 
-    await addReviewJoiSchema.validateAsync(req.body);
+    await reviewJoiSchema.validateAsync(req.body);
 
     next();
   } catch (error) {

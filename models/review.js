@@ -26,12 +26,12 @@ const Review = model("review", reviewSchema);
 
 // -------------------------------------- JOI SCHEMA -------------------------------------------
 
-const addReviewJoiSchema = Joi.object({
+const reviewJoiSchema = Joi.object({
   content: Joi.string().min(10).max(300).required(),
   rating: Joi.number().valid(1, 2, 3, 4, 5).required(),
 });
 
 module.exports = {
   Review,
-  addReviewJoiSchema,
+  reviewJoiSchema,
 };
