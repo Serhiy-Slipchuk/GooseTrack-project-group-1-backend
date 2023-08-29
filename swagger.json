@@ -393,6 +393,177 @@
           }
         }
       }
+    },
+
+    "/tasks": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get own tasks",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOwnTasksResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "User has no any task",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Post own task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's new task object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostOrPatchOwnTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostOwnTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/tasks/{id}": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Patch task by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Task id",
+            "schema": {
+              "type": "string"
+            },
+            "example": "64ed2156127207102d86a0fd"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Patched task object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostOrPatchOwnTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostOwnTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete task by id",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Task deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOwnTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Id is not valid",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
@@ -996,6 +1167,155 @@
             },
             "createdAt": "2023-08-28T22:36:06.580Z",
             "updatedAt": "2023-08-28T22:36:06.580Z"
+          }
+        }
+      },
+
+      "GetOwnTasksResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "tasks": {
+            "type": "array",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "642fdf8745ab73b2aeuuae7b",
+                "description": "Backend-generated unique identifier."
+              },
+              "title": {
+                "type": "string",
+                "description": "Task title",
+                "example": "GoIT homework"
+              },
+              "start": {
+                "type": "string",
+                "description": "Task start time",
+                "example": "09:00"
+              },
+              "end": {
+                "type": "string",
+                "description": "Task end time",
+                "example": "12:00"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["low", "medium", "high"],
+                "default": "low",
+                "example": "low"
+              },
+              "date": {
+                "type": "string",
+                "match": "dateRegexp",
+                "example": "2023-08-28"
+              },
+              "category": {
+                "type": "string",
+                "enum": ["to-do", "in-progress", "done"],
+                "example": "to-do"
+              },
+              "owner": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Reviewer's name",
+                    "example": "Name Surname"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "example": "user@example.com"
+                  },
+                  "avatarUrl": {
+                    "type": "string",
+                    "description": "Reviewer's image",
+                    "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-27T07:28:49.493Z",
+                "description": "Backend-generated date and time of task creating"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-28T07:28:49.493Z",
+                "description": "Backend-generated date and time of task updating"
+              }
+            }
+          }
+        },
+        "example": {
+          "status": 200,
+          "message": "Success",
+          "tasks": [
+            {
+              "_id": "64ede71dc35f467491e1e669",
+              "title": "GoIT homework",
+              "start": "09:00",
+              "end": "12:00",
+              "priority": "low",
+              "date": "2023-08-28",
+              "category": "to-do",
+              "owner": {
+                "name": "Name Surname",
+                "email": "user@example.com",
+                "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+              },
+              "createdAt": "2023-08-29T12:39:57.288Z",
+              "updatedAt": "2023-08-29T12:39:57.288Z"
+            }
+          ]
+        }
+      },
+
+      "PostOrPatchOwnTaskRequest": {
+        "type": "object",
+        "required": ["title", "start", "end", "priority", "category", "date"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "GoIT homework"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task end time",
+            "example": "12:00"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "default": "low",
+            "example": "low"
+          },
+          "date": {
+            "type": "string",
+            "match": "dateRegexp",
+            "example": "2023-08-28"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "to-do"
           }
         }
       }
