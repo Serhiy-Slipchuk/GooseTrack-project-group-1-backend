@@ -2,6 +2,7 @@ const { model, Schema } = require("mongoose");
 const Joi = require("joi");
 
 const dateRegexp = /^\d{4}-\d{2}-\d{2}$/;
+const timeRegexp = /^\d{2}:\d{2}$/;
 
 // ------------------------------------ MONGOOSE SCHEMA --------------------------------------
 
@@ -13,10 +14,12 @@ const taskSchema = new Schema(
     },
     start: {
       type: String,
+      match: timeRegexp,
       required: true,
     },
     end: {
       type: String,
+      match: timeRegexp,
       required: true,
     },
     priority: {
@@ -30,24 +33,26 @@ const taskSchema = new Schema(
       match: dateRegexp,
       required: true,
     },
-    mounth: {
-      type: String,
-      enum: [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-      ],
-      required: true,
-    },
+    // month: {
+    //   type: String,
+    //   enum: [
+    //     "01",
+    //     "02",
+    //     "03",
+    //     "04",
+    //     "05",
+    //     "06",
+    //     "07",
+    //     "08",
+    //     "09",
+    //     "10",
+    //     "11",
+    //     "12",
+    //   ],
+    // },
+    // year: {
+    //   type: String,
+    // },
     category: {
       type: String,
       required: true,
@@ -67,10 +72,10 @@ const Task = model("task", taskSchema);
 
 const addTaskJoiSchema = Joi.object({
   title: Joi.string().max(250).required(),
-  start: Joi.string().required(),
-  end: Joi.string().required(),
+  start: Joi.string().pattern(timeRegexp).required(),
+  end: Joi.string().pattern(timeRegexp).required(),
   priority: Joi.string().valid("low", "medium", "high").required(),
-  date: Joi.string().pattern(dateRegexp).required(),
+  date: Joi.date().iso().min('2023-01-01').required(),
   category: Joi.string().valid("to-do", "in-progress", "done").required(),
 });
 

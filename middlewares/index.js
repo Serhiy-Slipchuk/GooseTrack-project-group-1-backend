@@ -3,10 +3,11 @@ const { middlewareLogin } = require("./middlewareLogin");
 const { middlewareAuth } = require("./middlewareAuth");
 const { middlewareUpdateUser } = require("./middlewareUpdateUser");
 const { middlewareUploadFile } = require("./middlewareUploadFile");
-const { validateBody } = require("./validateBody");
-const { isValidId } = require("./isValidId");
 const { middlewareAddReview } = require("./middlewareAddReview");
 const { middlewareUpdateReview } = require("./middlewareUpdateReview");
+const { middlewareAddTask } = require("./middlewareAddTask");
+const { validateBody } = require("./validateBody");
+const { isValidId } = require("./isValidId");
 
 module.exports = {
   middlewareRegister,
@@ -14,8 +15,9 @@ module.exports = {
   middlewareAuth,
   middlewareUpdateUser,
   middlewareUploadFile,
-  validateBody,
-  isValidId,
   middlewareAddReview,
   middlewareUpdateReview,
+  middlewareAddTask,
+  validateBody,
+  isValidId
 };
