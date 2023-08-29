@@ -274,7 +274,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostOrEditOwnReviewRequest"
+                "$ref": "#/components/schemas/PostOrPatchOwnReviewRequest"
               }
             }
           }
@@ -312,7 +312,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOrEditOwnReviewResponse"
+                  "$ref": "#/components/schemas/GetOrPatchOwnReviewResponse"
                 }
               }
             }
