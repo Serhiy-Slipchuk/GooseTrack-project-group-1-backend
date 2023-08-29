@@ -14,7 +14,8 @@ const validateBody = (schema) => {
     }
 
     const mounth = date.split("-")[1];
-    if (Number(mounth) > 12) {
+    const year = date.split("-")[0];
+    if (Number(mounth) > 12 || Number(year) < 2023) {
       res.status(400).json({
         status: 400,
         message: "Invalid date or date format",
