@@ -533,7 +533,16 @@
       "delete": {
         "tags": ["Tasks"],
         "summary": "Delete task by id",
-        "parameters": [],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Task id",
+          "schema": {
+            "type": "string"
+          },
+          "example": "64ed2156127207102d86a0fd"
+        }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -794,11 +803,6 @@
           "skype": {
             "type": "string",
             "description": "User's skype",
-            "example": "!!!!!!!"
-          },
-          "birthdate": {
-            "type": "string",
-            "description": "User's birthdate",
             "example": "!!!!!!!"
           },
           "theme": {
