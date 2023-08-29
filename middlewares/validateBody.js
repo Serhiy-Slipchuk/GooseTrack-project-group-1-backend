@@ -1,23 +1,33 @@
 const AppError = require("../services/appError");
 
-const validateBody = schema => {
-    const func = (req, res, next) => {
-        const {error} = schema.validate(req.body);
-        const { start, end } = req.body;
+const validateBody = (schema) => {
+  const func = (req, res, next) => {
+    const { error } = schema.validate(req.body);
+    const { start, end, date } = req.body;
 
-        if(start >= end) {
-          res.status(400).json({
-            status: 400, message: "Start time must be less than end time"
-          });
-          return;
-        };
-
-        if(error) {
-        next(new AppError(400, error.message))
-      };
-      next(error);
+    if (start >= end) {
+      res.status(400).json({
+        status: 400,
+        message: "Start time must be less than end time",
+      });
+      return;
     }
-    return func;
+
+    const mounth = date.split("-")[1];
+    if (Number(mounth) > 12) {
+      res.status(400).json({
+        status: 400,
+        message: "Invalid date or date format",
+      });
+      return;
+    }
+
+    if (error) {
+      next(new AppError(400, error.message));
+    }
+    next(error);
+  };
+  return func;
 };
 
 module.exports = { validateBody };
