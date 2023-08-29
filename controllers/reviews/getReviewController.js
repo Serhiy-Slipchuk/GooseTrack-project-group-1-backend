@@ -5,7 +5,7 @@ const getReviewController = async (req, res) => {
     const { _id, name } = req.user;
     const ownReview = await Review.findOne({ owner: { _id } }).populate({
       path: "owner",
-      select: "name role avatarURL -_id",
+      select: "name email role avatarURL -_id",
     });
 
     if (!ownReview) {
