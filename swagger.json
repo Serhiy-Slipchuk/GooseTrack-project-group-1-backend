@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "version": "2.0.2",
-    "title": "Goosetrack project (group 1) backend V1 API docs",
+    "title": "Goosetrack project (group 1) backend V1 API docs.",
     "description": "API documentation for GoIT Goosetrack project (group 1)",
     "license": {
       "name": "MIT",
@@ -10,18 +10,18 @@
     }
   },
 
-  "consumes": ["application/json"],
+  "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
 
   "servers": [
-    {"url": "https://goosetrack-18hi.onrender.com/api/v1"},
+    { "url": "https://goosetrack-18hi.onrender.com/api/v1" },
     { "url": "https://localhost:3001/api/v1" }
   ],
 
   "tags": [
     {
-      "name": "Auth",
-      "description": "Authorization endpoints"
+      "name": "Users",
+      "description": "Users endpoints"
     },
     {
       "name": "Reviews",
@@ -36,7 +36,7 @@
   "paths": {
     "/users/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "User registration",
         "parameters": [],
         "security": [],
@@ -63,11 +63,15 @@
             }
           },
           "400": {
-            "description": "Validation failure",
+            "description": "Помилка валідації Joi",
             "content": {}
           },
           "409": {
             "description": "Email is in use",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {}
           }
         }
@@ -76,7 +80,7 @@
 
     "/users/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "User authentication",
         "parameters": [],
         "security": [],
@@ -93,7 +97,7 @@
         },
         "responses": {
           "200": {
-            "description": "Logged in success",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -102,87 +106,294 @@
               }
             }
           },
+          "400": {
+            "description": "Помилка валідації Joi",
+            "content": {}
+          },
           "401": {
             "description": "Email or password is wrong",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {}
           }
         }
       }
     },
 
-    "/current": {
+    "/users/current": {
       "get": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "Getting current user",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Login request body object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "Logged in succeed",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/UsersCurrentResponse"
                 }
               }
             }
           },
           "401": {
-            "description": "Email or password is wrong",
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {}
           }
         }
       }
     },
 
-    "/logout": {
+    "/users/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "Logout",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Logout object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LogoutRequest"
-              }
-            }
-          }
-        },
         "responses": {
-          "200": {
-            "description": "Logged in succeed",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginationResponse"
-                }
-              }
-            }
+          "204": {
+            "description": "Logged off succeed",
+            "content": {}
           },
-          "401": {
-            "description": "Email or password is wrong",
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {}
           }
         }
       }
     },
 
-    "/user": {}
+    "/users/user": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "User update",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's update object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. User updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "423": {
+            "description": "Locked. You have no necessary permissions to update user role",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Getting all reviews",
+        "parameters": [],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewsGetAllResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/reviews/own": {
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Post own review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's new review object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostOrEditOwnReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostOwnReviewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get own review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrEditOwnReviewResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+
+      "patch": {
+        "tags": ["Reviews"],
+        "summary": "Edit review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Edited review data object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostOrPatchOwnReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrPatchOwnReviewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "404": {
+            "description": "Review to delete doesn't exist for ${name} user",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete own review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "content": {}
+          },
+          "404": {
+            "description": "Review to delete doesn't exist for ${name} user",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    }
   },
 
   "components": {
@@ -199,7 +410,8 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "format": "email"
+            "format": "email",
+            "example": "user@example.com"
           },
           "password": {
             "type": "string",
@@ -208,19 +420,38 @@
           }
         }
       },
+
       "RegistrationResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email",
+                "example": "user@example.com"
+              }
             }
           }
         },
-        "example": [{ "email": "user@gmail.com" }]
+        "example": {
+          "status": 201,
+          "message": "Success",
+          "user": {
+            "email": "user@example.com"
+          }
+        }
       },
 
       "LoginRequest": {
@@ -230,7 +461,8 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "format": "email"
+            "format": "email",
+            "example": "user@example.com"
           },
           "password": {
             "type": "string",
@@ -241,31 +473,533 @@
       },
 
       "LoginResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "user": {
-              "type": "object",
-              "description": "Object with user's email",
-              "example": "{email:user@example.com}"
-            },
-            "token": {
-              "type": "string",
-              "description": "User's token",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZThmY2ZkZmEyYTQ2MzQ0NWI3NjVkYyIsImlhdCI6MTY5Mjk5MjQzMCwiZXhwIjoxNjkzMDc4ODMwfQ.j5MZpl_sSPewTDXMZhhyijkfhHVeEpnHhBEd-NCukZQ"
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "String"
+          }
+        },
+        "example": {
+          "status": 200,
+          "message": "Success",
+          "user": {
+            "email": "user@example.com"
+          },
+          "token": "string"
+        }
+      },
+
+      "UsersCurrentResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Name Surname"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "example": "user@example.com"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar url",
+                "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+              },
+              "phone": {
+                "type": "string",
+                "description": "User's phone number",
+                "example": "!!!!!"
+              },
+              "skype": {
+                "type": "string",
+                "description": "User's skype",
+                "example": "!!!!!"
+              },
+              "birthdate": {
+                "type": "string",
+                "description": "User's birthdate",
+                "example": "!!!!!"
+              },
+              "role": {
+                "type": "string",
+                "description": "User's role",
+                "example": "!!!!!"
+              },
+              "theme": {
+                "type": "string",
+                "description": "User's theme",
+                "example": "!!!!!"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Date of user creation",
+                "example": "!!!!!"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Date of user update",
+                "example": "!!!!!"
+              }
             }
           }
         },
-        "example": [
-          {
-            "user": { "email": "email:user@example.com" },
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZThmY2ZkZmEyYTQ2MzQ0NWI3NjVkYyIsImlhdCI6MTY5Mjk5MjQzMCwiZXhwIjoxNjkzMDc4ODMwfQ.j5MZpl_sSPewTDXMZhhyijkfhHVeEpnHhBEd-NCukZQ"
+        "example": {
+          "status": 200,
+          "message": "Success",
+          "user": {
+            "name": "Name Surname",
+            "email": "user@example.com",
+            "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+            "phone": "",
+            "skype": "",
+            "birthdate": "",
+            "role": "user",
+            "theme": "light",
+            "createdAt": "2023-08-27T07:40:05.960Z",
+            "updatedAt": "2023-08-28T09:30:34.756Z"
           }
-        ]
+        }
+      },
+
+      "UsersUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Name Surname"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "user@example.com"
+          },
+          "avatarURL": {
+            "type": "file",
+            "description": "User's avatar url",
+            "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone number",
+            "example": "!!!!!!!"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype",
+            "example": "!!!!!!!"
+          },
+          "birthdate": {
+            "type": "string",
+            "description": "User's birthdate",
+            "example": "!!!!!!!"
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "example": "!!!!!!!"
+          }
+        },
+        "example": {
+          "name": "Name Surname",
+          "email": "user@example.com",
+          "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+          "phone": "",
+          "skype": "",
+          "birthdate": "",
+          "theme": "light"
+        }
+      },
+      "UsersUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success. User update controller"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Name Surname"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "example": "user@example.com"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar url",
+                "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+              },
+              "phone": {
+                "type": "string",
+                "description": "User's phone number",
+                "example": "!!!!!!"
+              },
+              "skype": {
+                "type": "string",
+                "description": "User's skype",
+                "example": "!!!!!!"
+              },
+              "birthdate": {
+                "type": "string",
+                "description": "User's birthdate",
+                "example": "!!!!!!"
+              },
+              "role": {
+                "type": "string",
+                "description": "User's role"
+              },
+              "theme": {
+                "type": "string",
+                "description": "User's theme",
+                "example": "!!!!!!"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Date of user creation",
+                "example": "!!!!!!"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Date of user update",
+                "example": "!!!!!!"
+              }
+            }
+          }
+        },
+        "example": {
+          "status": 200,
+          "message": "Success",
+          "user": {
+            "name": "Name Surname",
+            "email": "user@example.com",
+            "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+            "phone": "",
+            "skype": "",
+            "birthdate": "",
+            "role": "user",
+            "theme": "light",
+            "createdAt": "2023-08-27T06:55:05.960Z",
+            "updatedAt": "2023-08-27T08:30:34.756Z"
+          }
+        }
+      },
+
+      "ReviewsGetAllResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "reviews": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "642fdf8745ab73b2aeuuae7b",
+                "description": "Backend-generated unique identifier."
+              },
+              "content": {
+                "type": "string",
+                "description": "Review text",
+                "example": "Very nice useful and convenient app. Thanks!"
+              },
+              "rating": {
+                "type": "number",
+                "description": "Number of stars",
+                "minimum": 1,
+                "maximum": 5,
+                "example": 4
+              },
+              "owner": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Reviewer's name",
+                    "example": "Name Surname"
+                  },
+                  "avatarUrl": {
+                    "type": "string",
+                    "description": "Reviewer's avatar",
+                    "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": "",
+                    "description": "Reviewer's role",
+                    "example": "user"
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-27T07:28:49.493Z",
+                "description": "Backend-generated date and time of task creating"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-28T07:28:49.493Z",
+                "description": "Backend-generated date and time of task updating"
+              }
+            }
+          }
+        },
+        "example": {
+          "status": 200,
+          "message": "Success",
+          "reviews": [
+            {
+              "_id": "642fdf8745ab73b2aeuuae7b",
+              "content": "Very nice useful and convenient app. Thanks!",
+              "rating": 5,
+              "owner": {
+                "name": "Kateryna Hilcher",
+                "avatarURL": "https://res.cloudinary.com/dquabwb70/image/upload/v1693154941/avatars/64eb7e128621908512127fff.jpg",
+                "role": "user"
+              },
+              "createdAt": "2023-08-27T22:02:11.566Z",
+              "updatedAt": "2023-08-28T22:02:11.566Z"
+            }
+          ]
+        }
+      },
+
+      "PostOrPatchOwnReviewRequest": {
+        "type": "object",
+        "required": ["content", "rating"],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Review text",
+            "example": "Very nice useful and convenient app. Thanks!"
+          },
+          "rating": {
+            "type": "number",
+            "description": "Number of stars",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 4
+          }
+        },
+        "example": {
+          "content": "Very nice useful and convenient app. Thanks!",
+          "rating": "5"
+        }
+      },
+
+      "PostOwnReviewResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "201"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "review": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Reviewer's name",
+                "example": "Name Surname"
+              },
+              "role": {
+                "type": "string",
+                "enum": "",
+                "description": "Reviewer's role",
+                "example": "user"
+              },
+              "content": {
+                "type": "string",
+                "description": "Review text",
+                "example": "Very nice useful and convenient app. Thanks!"
+              },
+              "rating": {
+                "type": "number",
+                "description": "Number of stars",
+                "minimum": 1,
+                "maximum": 5,
+                "example": 4
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-27T07:28:49.493Z",
+                "description": "Backend-generated date and time of task creating"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-28T07:28:49.493Z",
+                "description": "Backend-generated date and time of task updating"
+              }
+            }
+          }
+        },
+
+        "example": {
+          "status": 201,
+          "message": "Success",
+          "review": {
+            "name": "Name Surname",
+            "role": "user",
+            "content": "I like this app so much",
+            "rating": 5,
+            "createdAt": "2023-08-28T22:36:06.580Z",
+            "updatedAt": "2023-08-28T22:36:06.580Z"
+          }
+        }
+      },
+
+      "GetOrPatchOwnReviewResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "review": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "642fdf8745ab73b2aeuuae7b",
+                "description": "Backend-generated unique identifier."
+              },
+              "content": {
+                "type": "string",
+                "description": "Review text",
+                "example": "Very nice useful and convenient app. Thanks!"
+              },
+              "rating": {
+                "type": "number",
+                "description": "Number of stars",
+                "minimum": 1,
+                "maximum": 5,
+                "example": 4
+              },
+              "owner": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Reviewer's name",
+                    "example": "Name Surname"
+                  },
+                  "avatarUrl": {
+                    "type": "string",
+                    "description": "Reviewer's image",
+                    "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": "",
+                    "description": "Reviewer's role",
+                    "example": "user"
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-27T07:28:49.493Z",
+                "description": "Backend-generated date and time of task creating"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2023-08-28T07:28:49.493Z",
+                "description": "Backend-generated date and time of task updating"
+              }
+            }
+          }
+        },
+        "example": {
+          "status": 200,
+          "message": "Success",
+          "review": {
+            "_id": "64ed2156127207102d86a0fd",
+            "content": "Very nice useful and convenient app. Thanks!",
+            "rating": 4,
+            "owner": {
+              "name": "Name Surname",
+              "avatarURL": "https://res.cloudinary.com/dquabwb70/image/upload/v1693154941/avatars/64eb7e128621908512127fff.jpg",
+              "role": "user"
+            },
+            "createdAt": "2023-08-28T22:36:06.580Z",
+            "updatedAt": "2023-08-28T22:36:06.580Z"
+          }
+        }
       }
     },
-
     "securitySchemes": {
       "Bearer": {
         "type": "http",
