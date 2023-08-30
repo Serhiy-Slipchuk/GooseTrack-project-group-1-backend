@@ -1,4 +1,4 @@
-const { reviewJoiSchema, Review } = require("../models/review");
+const { updateReviewJoiSchema, Review } = require("../models/review");
 
 const middlewareUpdateReview = async (req, res, next) => {
   if (req.body.owner) {
@@ -10,7 +10,7 @@ const middlewareUpdateReview = async (req, res, next) => {
   }
 
   try {
-    await reviewJoiSchema.validateAsync(req.body);
+    await updateReviewJoiSchema.validateAsync(req.body);
 
     next();
   } catch (error) {
