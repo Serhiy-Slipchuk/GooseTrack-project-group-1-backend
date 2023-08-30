@@ -1,4 +1,5 @@
 const { updateUserJoiSchema } = require("../models/user");
+const { validateDate } = require("../services");
 
 const middlewareUpdateUser = async (req, res, next) => {
   if (req.body.role && req.user.role !== "admin") {
@@ -11,6 +12,16 @@ const middlewareUpdateUser = async (req, res, next) => {
 
   try {
     await updateUserJoiSchema.validateAsync(req.body);
+
+    if (req.body.birthday) {
+      if (!validateDate(req.body.birthday)) {
+        res.status(400).json({
+          status: 400,
+          message: "GoIT validation error: /Invalid date",
+        });
+        return;
+      }
+    }
 
     next();
   } catch (error) {

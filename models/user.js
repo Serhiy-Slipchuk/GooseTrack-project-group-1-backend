@@ -1,6 +1,8 @@
 const { model, Schema } = require("mongoose");
 const Joi = require("joi");
 
+const phoneRegexp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
+
 // ------------------------------------------------ MONGOOSE SCHEMA ------------------------------------------------
 
 const userSchema = new Schema(
@@ -68,9 +70,9 @@ const updateUserJoiSchema = Joi.object({
   name: Joi.string().min(3).max(30),
   email: Joi.string().email(),
   avatarURL: Joi.string().min(10),
-  phone: Joi.string().min(13).max(20),
+  phone: Joi.string().min(13).max(20).pattern(phoneRegexp),
   skype: Joi.string().min(3),
-  birthday: Joi.string().min(10),
+  birthday: Joi.date().iso(),
   role: Joi.string().valid('admin', 'user'),
   theme: Joi.string().valid('light', 'dark'),
 });
