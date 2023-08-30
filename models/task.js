@@ -59,7 +59,17 @@ const addTaskJoiSchema = Joi.object({
   category: Joi.string().valid("to-do", "in-progress", "done").required(),
 });
 
+const updateTaskJoiSchema = Joi.object({
+  title: Joi.string().max(250),
+  start: Joi.string().pattern(timeRegexp),
+  end: Joi.string().pattern(timeRegexp),
+  priority: Joi.string().valid("low", "medium", "high"),
+  date: Joi.date().iso().min("2023-01-01"),
+  category: Joi.string().valid("to-do", "in-progress", "done"),
+});
+
 module.exports = {
   Task,
   addTaskJoiSchema,
+  updateTaskJoiSchema,
 };

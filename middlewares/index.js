@@ -6,7 +6,8 @@ const { middlewareUploadFile } = require("./middlewareUploadFile");
 const { middlewareAddReview } = require("./middlewareAddReview");
 const { middlewareUpdateReview } = require("./middlewareUpdateReview");
 const { middlewareAddTask } = require("./middlewareAddTask");
-const { validateBody } = require("./validateBody");
+const { middlewareUpdateTask } = require("./middlewareUpdateTask");
+
 const { isValidId } = require("./isValidId");
 
 module.exports = {
@@ -18,6 +19,6 @@ module.exports = {
   middlewareAddReview,
   middlewareUpdateReview,
   middlewareAddTask,
-  validateBody,
-  isValidId
+  middlewareUpdateTask,
+  isValidId,
 };
