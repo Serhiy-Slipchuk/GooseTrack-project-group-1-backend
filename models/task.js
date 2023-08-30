@@ -33,26 +33,6 @@ const taskSchema = new Schema(
       match: dateRegexp,
       required: true,
     },
-    // month: {
-    //   type: String,
-    //   enum: [
-    //     "01",
-    //     "02",
-    //     "03",
-    //     "04",
-    //     "05",
-    //     "06",
-    //     "07",
-    //     "08",
-    //     "09",
-    //     "10",
-    //     "11",
-    //     "12",
-    //   ],
-    // },
-    // year: {
-    //   type: String,
-    // },
     category: {
       type: String,
       required: true,
@@ -75,7 +55,7 @@ const addTaskJoiSchema = Joi.object({
   start: Joi.string().pattern(timeRegexp).required(),
   end: Joi.string().pattern(timeRegexp).required(),
   priority: Joi.string().valid("low", "medium", "high").required(),
-  date: Joi.date().iso().min('2023-01-01').required(),
+  date: Joi.date().iso().min("2023-01-01").required(),
   category: Joi.string().valid("to-do", "in-progress", "done").required(),
 });
 

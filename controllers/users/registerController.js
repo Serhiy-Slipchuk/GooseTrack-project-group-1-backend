@@ -31,7 +31,7 @@ const registerController = async (req, res) => {
     }
     res.status(400).json({
       status: 400,
-      message: `Помилка валідації бази данних: //${error.message}//`,
+      message: `MongoDB validation error: //${error.message}//`,
     });
   }
 };
