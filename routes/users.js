@@ -24,7 +24,7 @@ router.post("/login", middlewareLogin, loginController);
 router.post("/logout", middlewareAuth, logoutController);
 router.get("/current", middlewareAuth, currentUserController);
 router.patch(
-  "/user",
+  "/edit",
   middlewareAuth,
   middlewareUploadFile,
   middlewareUpdateUser,

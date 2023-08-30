@@ -12,17 +12,6 @@ const getTasksController = async (req, res) => {
       select: "name email avatarURL -_id",
     });
 
-    if (result?.length === 0) {
-      const message = month
-        ? `User ${name} have no any task in ${month}`
-        : `User ${name} have no any task`;
-      res.status(404).json({
-        status: 404,
-        message,
-      });
-      return;
-    }
-
     res.status(200).json({
       status: 200,
       message: "Success",
