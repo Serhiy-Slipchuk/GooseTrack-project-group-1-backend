@@ -2,11 +2,9 @@ const { Task } = require("../../models/task");
 
 const getTasksController = async (req, res) => {
   const { _id: owner, name } = req.user;
-  const { mounth } = req.query;
-  console.log("mounth", mounth);
+  const { month } = req.query;
 
-  const searchCriteria = mounth ? { owner, mounth } : { owner };
-  console.log(searchCriteria);
+  const searchCriteria = month ? { owner, date: { $regex: month } } : { owner };
 
   try {
     const result = await Task.find(searchCriteria).populate({
@@ -15,8 +13,8 @@ const getTasksController = async (req, res) => {
     });
 
     if (result?.length === 0) {
-      const message = mounth
-        ? `User ${name} have no any task in ${mounth} mounth`
+      const message = month
+        ? `User ${name} have no any task in ${month}`
         : `User ${name} have no any task`;
       res.status(404).json({
         status: 404,

@@ -8,7 +8,7 @@ const middlewareLogin = async (req, res, next) => {
   } catch (error) {
     res.status(400).json({
       status: 400,
-      message: `Помилка валідації Joi: ${error.message}`,
+      message: `Joi validation error: ${error.message}`,
     });
   }
 };

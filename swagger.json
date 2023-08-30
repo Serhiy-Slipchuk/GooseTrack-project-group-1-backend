@@ -63,7 +63,7 @@
             }
           },
           "400": {
-            "description": "Помилка валідації Joi",
+            "description": "Joi Validation Error",
             "content": {}
           },
           "409": {
@@ -107,7 +107,7 @@
             }
           },
           "400": {
-            "description": "Помилка валідації Joi",
+            "description": "Joi Validation Error",
             "content": {}
           },
           "401": {
