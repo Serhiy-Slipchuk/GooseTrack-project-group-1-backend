@@ -8,14 +8,7 @@ const addReviewController = async (req, res) => {
     res.status(201).json({
       status: 201,
       message: "Success",
-      review: {
-        name: req.user.name,
-        role: req.user.role,
-        content: newReview.content,
-        rating: newReview.rating,
-        createdAt: newReview.createdAt,
-        updatedAt: newReview.updatedAt,
-      },
+      review: newReview,
     });
   } catch (error) {
     console.log(error.message);
