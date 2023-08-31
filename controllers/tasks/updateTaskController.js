@@ -9,14 +9,7 @@ const updateTaskController = async (req, res) => {
     res.status(200).json({
       status: 200,
       message: "Success",
-      task: {
-        title: task.title,
-        start: task.start,
-        end: task.end,
-        priority: task.priority,
-        date: task.date,
-        category: task.category,
-      },
+      task,
     });
   } catch (error) {
     res.status(500).json({ status: 500, message: error.message });
