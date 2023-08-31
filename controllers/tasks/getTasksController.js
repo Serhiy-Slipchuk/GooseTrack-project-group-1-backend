@@ -12,6 +12,8 @@ const getTasksController = async (req, res) => {
       select: "name email avatarURL -_id",
     });
 
+    console.log(result);
+
     res.status(200).json({
       status: 200,
       message: "Success",
