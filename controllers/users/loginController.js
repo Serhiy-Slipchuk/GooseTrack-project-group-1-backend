@@ -11,8 +11,8 @@ const loginController = async (req, res) => {
 
     if (!user) {
       res
-        .status(401)
-        .json({ status: 401, message: "Email or password is wrong" });
+        .status(400)
+        .json({ status: 400, message: "Email or password is wrong" });
       return;
     }
 
@@ -21,8 +21,8 @@ const loginController = async (req, res) => {
 
     if (!isPasswordValid) {
       res
-        .status(401)
-        .json({ status: 401, message: "Email or password is wrong" });
+        .status(400)
+        .json({ status: 400, message: "Email or password is wrong" });
       return;
     }
 
@@ -42,6 +42,7 @@ const loginController = async (req, res) => {
       status: 200,
       message: "Success",
       user: {
+        name: user.name,
         email: user.email,
       },
       token,
@@ -49,8 +50,8 @@ const loginController = async (req, res) => {
   } catch (error) {
     console.log(error);
     res
-      .status(401)
-      .json({ status: 401, message: "Email or password is wrong" });
+      .status(400)
+      .json({ status: 400, message: "Email or password is wrong" });
   }
 };
 
