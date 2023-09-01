@@ -235,10 +235,6 @@
               }
             }
           },
-          "404": {
-            "description": "Not found",
-            "content": {}
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {}
@@ -259,7 +255,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostOrPatchOwnReviewRequest"
+                "$ref": "#/components/schemas/PostOwnReviewRequest"
               }
             }
           }
@@ -276,7 +272,15 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Joi validation error",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "403": {
+            "description": "Forbidden. You can not leave more than 1 review",
             "content": {}
           },
           "500": {
@@ -307,7 +311,7 @@
             "content": {}
           },
           "404": {
-            "description": "Not found",
+            "description": "User ${name} have no any review",
             "content": {}
           },
           "500": {
@@ -328,7 +332,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostOrPatchOwnReviewRequest"
+                "$ref": "#/components/schemas/PatchOwnReviewRequest"
               }
             }
           }
@@ -345,11 +349,15 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Joi validation error",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
           "404": {
-            "description": "Review to delete doesn't exist for ${name} user",
+            "description": "User ${name} have no any review",
             "content": {}
           },
           "500": {
@@ -366,6 +374,10 @@
         "security": [{ "Bearer": [] }],
         "responses": {
           "204": {
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
           "404": {
@@ -941,6 +953,7 @@
 
       "ReviewsGetAllResponse": {
         "type": "object",
+        "required":["status", "message", "reviews"],
         "properties": {
           "status": {
             "type": "number",
@@ -1028,7 +1041,7 @@
         }
       },
 
-      "PostOrPatchOwnReviewRequest": {
+      "PostOwnReviewRequest": {
         "type": "object",
         "required": ["content", "rating"],
         "properties": {
@@ -1067,17 +1080,6 @@
           "review": {
             "type": "object",
             "properties": {
-              "name": {
-                "type": "string",
-                "description": "Reviewer's name",
-                "example": "Name Surname"
-              },
-              "role": {
-                "type": "string",
-                "enum": "",
-                "description": "Reviewer's role",
-                "example": "user"
-              },
               "content": {
                 "type": "string",
                 "description": "Review text",
@@ -1089,6 +1091,16 @@
                 "minimum": 1,
                 "maximum": 5,
                 "example": 4
+              },
+              "owner": {
+                "type": "string",
+                "description": "Owner ID",
+                "example": "64f25b6348e8d48f8f75b47c"
+              },
+              "_id": {
+                "type": "string",
+                "description": "Review ID",
+                "example": "64e883dd67a3af5a9ddcc3e6"
               },
               "createdAt": {
                 "type": "string",
@@ -1110,15 +1122,40 @@
           "status": 201,
           "message": "Success",
           "review": {
-            "name": "Name Surname",
-            "role": "user",
             "content": "I like this app so much",
             "rating": 5,
+            "owner": "64f25b6348e8d48f8f75b47c",
+            "_id": "64e883dd67a3af5a9ddcc3e6",
             "createdAt": "2023-08-28T22:36:06.580Z",
             "updatedAt": "2023-08-28T22:36:06.580Z"
           }
         }
       },
+
+      "PatchOwnReviewRequest": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Review text",
+            "example": "Very nice useful and convenient app. Thanks!"
+          },
+          "rating": {
+            "type": "number",
+            "description": "Number of stars",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 4
+          }
+        },
+        "example": {
+          "content": "Very nice useful and convenient app. Thanks!",
+          "rating": "5"
+        }
+      },
+
+      
 
       "GetOrPatchOwnReviewResponse": {
         "type": "object",
