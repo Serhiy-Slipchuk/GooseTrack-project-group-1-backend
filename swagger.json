@@ -221,7 +221,7 @@
     "/reviews": {
       "get": {
         "tags": ["Reviews"],
-        "summary": "Getting all reviews",
+        "summary": "Get all reviews",
         "parameters": [],
         "security": [],
         "responses": {
@@ -250,7 +250,7 @@
     "/reviews/own": {
       "post": {
         "tags": ["Reviews"],
-        "summary": "Post own review",
+        "summary": "Add user's review",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -288,7 +288,7 @@
 
       "get": {
         "tags": ["Reviews"],
-        "summary": "Get own review",
+        "summary": "Get user's review",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -319,7 +319,7 @@
 
       "patch": {
         "tags": ["Reviews"],
-        "summary": "Edit review",
+        "summary": "Update user's review",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -361,7 +361,7 @@
 
       "delete": {
         "tags": ["Reviews"],
-        "summary": "Delete own review",
+        "summary": "Delete user's review",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -383,8 +383,19 @@
     "/tasks": {
       "get": {
         "tags": ["Tasks"],
-        "summary": "Get own tasks",
-        "parameters": [],
+        "summary": "Get all tasks (without search query) and Get tasks per month (with search query in format YYYY-MM)",
+        "parameters": [
+          {
+            "name": "month",
+            "in": "query",
+            "required": false,
+            "description": "Month in format YYYY-MM",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2023-08"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -392,17 +403,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOwnTasksResponse"
+                  "$ref": "#/components/schemas/GetTasksResponse"
                 }
               }
             }
           },
           "401": {
             "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "User has no any task",
             "content": {}
           },
           "500": {
@@ -413,7 +420,7 @@
       },
       "post": {
         "tags": ["Tasks"],
-        "summary": "Post own task",
+        "summary": "Add user's task",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -422,7 +429,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostOrPatchOwnTaskRequest"
+                "$ref": "#/components/schemas/PostOwnTaskRequest"
               }
             }
           }
@@ -433,7 +440,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostOrPatchOwnTaskResponse"
+                  "$ref": "#/components/schemas/PostOwnTaskResponse"
                 }
               }
             }
@@ -444,10 +451,6 @@
           },
           "401": {
             "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "Not Found",
             "content": {}
           },
           "500": {
@@ -461,7 +464,7 @@
     "/tasks/{id}": {
       "patch": {
         "tags": ["Tasks"],
-        "summary": "Patch task by id",
+        "summary": "Update user's task by id",
         "parameters": [
           {
             "name": "id",
@@ -481,7 +484,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostOrPatchOwnTaskRequest"
+                "$ref": "#/components/schemas/PatchOwnTaskRequest"
               }
             }
           }
@@ -492,7 +495,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostOrPatchOwnTaskResponse"
+                  "$ref": "#/components/schemas/PatchOwnTaskResponse"
                 }
               }
             }
@@ -509,6 +512,10 @@
             "description": "Not Found",
             "content": {}
           },
+          "423": {
+            "description": "Locked. You have no necessary permissions to update task owner",
+            "content": {}
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {}
@@ -517,7 +524,7 @@
       },
       "delete": {
         "tags": ["Tasks"],
-        "summary": "Delete task by id",
+        "summary": "Delete user's task by id",
         "parameters": [
           {
             "name": "id",
@@ -823,12 +830,14 @@
           "role": {
             "type": "string",
             "description": "User's role",
-            "example": "user || admin"
+            "enum": ["user", "admin"],
+            "example": "user"
           },
           "theme": {
             "type": "string",
             "description": "User's theme",
-            "example": "light || dark"
+            "enum": ["light", "dark"],
+            "example": "light"
           }
         },
         "example": {
@@ -844,6 +853,7 @@
       },
       "UsersUpdateResponse": {
         "type": "object",
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "number",
@@ -1197,8 +1207,9 @@
         }
       },
 
-      "GetOwnTasksResponse": {
+      "GetTasksResponse": {
         "type": "object",
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "number",
@@ -1311,7 +1322,7 @@
         }
       },
 
-      "PostOrPatchOwnTaskRequest": {
+      "PostOwnTaskRequest": {
         "type": "object",
         "required": ["title", "start", "end", "priority", "category", "date"],
         "properties": {
@@ -1346,11 +1357,20 @@
             "enum": ["to-do", "in-progress", "done"],
             "example": "to-do"
           }
+        },
+        "example": {
+            "title": "GoIT homework",
+            "start": "09:00",
+            "end": "12:00",
+            "priority": "low",
+            "date": "2023-08-28",
+            "category": "to-do"
         }
       },
 
-      "PostOrPatchOwnTaskResponse": {
+      "PostOwnTaskResponse": {
         "type": "object",
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "number",
@@ -1362,7 +1382,7 @@
             "description": "Response message",
             "example": "Success"
           },
-          "tasks": {
+          "task": {
             "type": "object",
             "required": [
               "title",
@@ -1410,7 +1430,125 @@
         "example": {
           "status": 201,
           "message": "Success",
-          "tasks": {
+          "task": {
+            "title": "GoIT homework",
+            "start": "09:00",
+            "end": "12:00",
+            "priority": "low",
+            "date": "2023-08-28",
+            "category": "to-do"
+          }
+        }
+      },
+
+      "PatchOwnTaskRequest": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "GoIT homework"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task end time",
+            "example": "12:00"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "default": "low",
+            "example": "low"
+          },
+          "date": {
+            "type": "string",
+            "match": "dateRegexp",
+            "example": "2023-08-28"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "to-do"
+          }
+        },
+        "example": {
+          "title": "GoIT homework",
+          "start": "09:00",
+          "end": "12:00",
+          "priority": "low",
+          "date": "2023-08-28",
+          "category": "to-do"
+        }
+      },
+
+      "PatchOwnTaskResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "201"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "task": {
+            "type": "object",
+            "required": [
+              "title",
+              "start",
+              "end",
+              "priority",
+              "date",
+              "category"
+            ],
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Task title",
+                "example": "GoIT homework"
+              },
+              "start": {
+                "type": "string",
+                "description": "Task start time",
+                "example": "09:00"
+              },
+              "end": {
+                "type": "string",
+                "description": "Task end time",
+                "example": "12:00"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["low", "medium", "high"],
+                "default": "low",
+                "example": "low"
+              },
+              "date": {
+                "type": "string",
+                "match": "dateRegexp",
+                "example": "2023-08-28"
+              },
+              "category": {
+                "type": "string",
+                "enum": ["to-do", "in-progress", "done"],
+                "example": "to-do"
+              }
+            }
+          }
+        },
+        "example": {
+          "status": 201,
+          "message": "Success",
+          "task": {
             "title": "GoIT homework",
             "start": "09:00",
             "end": "12:00",
@@ -1423,6 +1561,7 @@
 
       "DeleteTaskResponse": {
         "type": "object",
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "number",
