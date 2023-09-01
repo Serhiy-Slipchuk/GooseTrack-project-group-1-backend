@@ -53,7 +53,7 @@
         },
         "responses": {
           "201": {
-            "description": "Succeed",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -63,11 +63,11 @@
             }
           },
           "400": {
-            "description": "Помилка валідації Joi",
+            "description": "Joi validation error",
             "content": {}
           },
           "409": {
-            "description": "Email is in use",
+            "description": "Email example@example.com is in use",
             "content": {}
           },
           "500": {
@@ -107,15 +107,7 @@
             }
           },
           "400": {
-            "description": "Помилка валідації Joi",
-            "content": {}
-          },
-          "401": {
-            "description": "Email or password is wrong",
-            "content": {}
-          },
-          "404": {
-            "description": "Not found",
+            "description": "Joi validation error || Email or password is wrong",
             "content": {}
           },
           "500": {
@@ -129,9 +121,10 @@
     "/users/current": {
       "get": {
         "tags": ["Users"],
-        "summary": "Getting current user",
+        "summary": "Get current user",
         "parameters": [],
         "security": [{ "Bearer": [] }],
+
         "responses": {
           "200": {
             "description": "Success",
@@ -147,10 +140,6 @@
             "description": "Not authorized",
             "content": {}
           },
-          "404": {
-            "description": "Not found",
-            "content": {}
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {}
@@ -162,16 +151,16 @@
     "/users/logout": {
       "post": {
         "tags": ["Users"],
-        "summary": "Logout",
+        "summary": "User logout",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "responses": {
           "204": {
-            "description": "Logged off succeed",
+            "description": "No content (logged out successfully)",
             "content": {}
           },
-          "404": {
-            "description": "Not found",
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
           "500": {
@@ -182,7 +171,7 @@
       }
     },
 
-    "/users/user": {
+    "/users/edit": {
       "patch": {
         "tags": ["Users"],
         "summary": "User update",
@@ -216,10 +205,6 @@
           },
           "401": {
             "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "Not found",
             "content": {}
           },
           "423": {
@@ -582,7 +567,7 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": ["name", "email", "password"],
         "properties": {
           "name": {
             "type": "string",
@@ -600,11 +585,17 @@
             "description": "User's password",
             "example": "qwerty123"
           }
+        },
+        "example": {
+          "name": "Name Surname",
+          "email": "user@example.com",
+          "password": "qwe12345"
         }
       },
 
       "RegistrationResponse": {
         "type": "object",
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "number",
@@ -619,6 +610,10 @@
           "user": {
             "type": "object",
             "properties": {
+              "name": {
+                "type": "string",
+                "example": "Name Surname"
+              },
               "email": {
                 "type": "string",
                 "format": "email",
@@ -631,6 +626,7 @@
           "status": 201,
           "message": "Success",
           "user": {
+            "name": "Name Surname",
             "email": "user@example.com"
           }
         }
@@ -651,11 +647,16 @@
             "description": "User's password",
             "example": "qwerty123"
           }
+        },
+        "example": {
+          "name": "Name Surname",
+          "email": "user@example.com"
         }
       },
 
       "LoginResponse": {
         "type": "object",
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "number",
@@ -670,9 +671,14 @@
           "user": {
             "type": "object",
             "properties": {
+              "name": {
+                "type": "string",
+                "example": "Name Surname"
+              },
               "email": {
                 "type": "string",
-                "format": "email"
+                "format": "email",
+                "example": "user@example.com"
               }
             }
           },
@@ -686,6 +692,7 @@
           "status": 200,
           "message": "Success",
           "user": {
+            "name": "Name Surname",
             "email": "user@example.com"
           },
           "token": "string"
@@ -694,6 +701,7 @@
 
       "UsersCurrentResponse": {
         "type": "object",
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "number",
@@ -794,32 +802,43 @@
           },
           "avatarURL": {
             "type": "file",
-            "description": "User's avatar url",
-            "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro"
+            "description": "User's avatar file",
+            "example": "*.jpg || *.png || *.gif || *.webp"
           },
           "phone": {
             "type": "string",
             "description": "User's phone number",
-            "example": "!!!!!!!"
+            "example": "+38 (067) 111-2345"
           },
           "skype": {
             "type": "string",
             "description": "User's skype",
-            "example": "!!!!!!!"
+            "example": "ExAmPle123eXaMpLe"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "2000-12-31"
+          },
+          "role": {
+            "type": "string",
+            "description": "User's role",
+            "example": "user || admin"
           },
           "theme": {
             "type": "string",
             "description": "User's theme",
-            "example": "!!!!!!!"
+            "example": "light || dark"
           }
         },
         "example": {
           "name": "Name Surname",
           "email": "user@example.com",
-          "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
-          "phone": "",
-          "skype": "",
-          "birthdate": "",
+          "avatarURL": "566tghyuji.jpg",
+          "phone": "+38 (067) 111-2345",
+          "skype": "ExAmPle123eXaMpLe",
+          "role": "user",
+          "birthdate": "2000-12-31",
           "theme": "light"
         }
       },
@@ -857,36 +876,37 @@
               "phone": {
                 "type": "string",
                 "description": "User's phone number",
-                "example": "!!!!!!"
+                "example": "+38 (067) 111-2345"
               },
               "skype": {
                 "type": "string",
                 "description": "User's skype",
-                "example": "!!!!!!"
+                "example": "ExAmPle123eXaMpLe"
               },
               "birthdate": {
-                "type": "string",
+                "type": "2000-12-31",
                 "description": "User's birthdate",
-                "example": "!!!!!!"
+                "example": "2000-12-31"
               },
               "role": {
                 "type": "string",
-                "description": "User's role"
+                "description": "User's role",
+                "example": "user"
               },
               "theme": {
                 "type": "string",
                 "description": "User's theme",
-                "example": "!!!!!!"
+                "example": "light"
               },
               "createdAt": {
                 "type": "string",
                 "description": "Date of user creation",
-                "example": "!!!!!!"
+                "example": "2023-08-27T06:55:05.960Z"
               },
               "updatedAt": {
                 "type": "string",
                 "description": "Date of user update",
-                "example": "!!!!!!"
+                "example": "2023-08-27T08:30:34.756Z"
               }
             }
           }
@@ -898,9 +918,9 @@
             "name": "Name Surname",
             "email": "user@example.com",
             "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
-            "phone": "",
-            "skype": "",
-            "birthdate": "",
+            "phone": "+38 (067) 111-2345",
+            "skype": "ExAmPle123eXaMpLe",
+            "birthdate": "2000-12-31",
             "role": "user",
             "theme": "light",
             "createdAt": "2023-08-27T06:55:05.960Z",

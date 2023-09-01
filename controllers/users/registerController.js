@@ -18,6 +18,7 @@ const registerController = async (req, res) => {
       status: 201,
       message: "Success",
       user: {
+        name: newUser.name,
         email: newUser.email,
       },
     });
