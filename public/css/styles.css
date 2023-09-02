@@ -1,0 +1,13 @@
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-thumb {
+    margin-top: 170px;
+}
+
+h1 {
+    color: blue
+}
