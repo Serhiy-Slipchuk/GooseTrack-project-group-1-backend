@@ -668,8 +668,8 @@
           }
         },
         "example": {
-          "name": "Name Surname",
-          "email": "user@example.com"
+          "email": "user@example.com",
+          "password": "qwerty123"
         }
       },
 
