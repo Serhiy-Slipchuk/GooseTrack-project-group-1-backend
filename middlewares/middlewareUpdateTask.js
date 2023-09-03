@@ -32,7 +32,7 @@ const middlewareUpdateTask = async (req, res, next) => {
       }
     }
 
-    if (start) {
+    if (start && !end) {
       if (start >= task.end) {
         res.status(400).json({
           status: 400,
@@ -42,7 +42,7 @@ const middlewareUpdateTask = async (req, res, next) => {
       }
     }
 
-    if (end) {
+    if (!start && end) {
       if (task.start >= end) {
         res.status(400).json({
           status: 400,
