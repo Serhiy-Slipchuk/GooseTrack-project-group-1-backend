@@ -23,7 +23,7 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
       default:
-        "https://goosetrack-18hi.onrender.com/images/avatars/default.svg",
+        "https://res.cloudinary.com/dquabwb70/image/upload/v1693433481/avatars/x9qsndlni4bflvs2it4i.svg",
     },
     phone: {
       type: String,
