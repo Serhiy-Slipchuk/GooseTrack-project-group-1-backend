@@ -760,9 +760,9 @@
                 "description": "User's skype",
                 "example": "!!!!!"
               },
-              "birthdate": {
+              "birthday": {
                 "type": "string",
-                "description": "User's birthdate",
+                "description": "User's birthday",
                 "example": "!!!!!"
               },
               "role": {
@@ -797,7 +797,7 @@
             "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
             "phone": "",
             "skype": "",
-            "birthdate": "",
+            "birthday": "",
             "role": "user",
             "theme": "light",
             "createdAt": "2023-08-27T07:40:05.960Z",
@@ -859,7 +859,7 @@
           "phone": "+38 (067) 111-2345",
           "skype": "ExAmPle123eXaMpLe",
           "role": "user",
-          "birthdate": "2000-12-31",
+          "birthday": "2000-12-31",
           "theme": "light"
         }
       },
@@ -905,9 +905,9 @@
                 "description": "User's skype",
                 "example": "ExAmPle123eXaMpLe"
               },
-              "birthdate": {
+              "birthday": {
                 "type": "2000-12-31",
-                "description": "User's birthdate",
+                "description": "User's birthday",
                 "example": "2000-12-31"
               },
               "role": {
@@ -942,7 +942,7 @@
             "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
             "phone": "+38 (067) 111-2345",
             "skype": "ExAmPle123eXaMpLe",
-            "birthdate": "2000-12-31",
+            "birthday": "2000-12-31",
             "role": "user",
             "theme": "light",
             "createdAt": "2023-08-27T06:55:05.960Z",
