@@ -69,6 +69,7 @@ const loginUserJoiSchema = Joi.object({
 const updateUserJoiSchema = Joi.object({
   name: Joi.string().min(3).max(30),
   email: Joi.string().email(),
+  avatarURL: Joi.any(),
   phone: Joi.string().min(13).max(20).pattern(phoneRegexp),
   skype: Joi.string().min(3),
   birthday: Joi.date().iso(),
