@@ -9,9 +9,11 @@ const getReviewController = async (req, res) => {
     });
 
     if (!ownReview) {
-      res.status(404).json({
-        status: 404,
-        message: `User ${name} have no any review`,
+      res.status(200).json({
+        status: 200,
+        message: `User ${name} have no review`,
+        review: {}
+
       });
       return;
     }

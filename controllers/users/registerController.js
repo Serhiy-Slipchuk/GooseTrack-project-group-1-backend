@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 const { User } = require("../../models/user");
 
@@ -14,12 +14,25 @@ const registerController = async (req, res) => {
       password: hashPassword,
     });
 
+    //   ------------------------------------- CREATE TOKEN ----------------------------------
+    const payload = {
+      id: newUser._id,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
+    const newAuthUser = await User.findByIdAndUpdate(newUser._id, { token: token }, {new: true});
+    //   -------------------------------------------------------------------------------
+
     res.status(201).json({
       status: 201,
       message: "Success",
       user: {
-        name: newUser.name,
-        email: newUser.email,
+        name: newAuthUser.name,
+        email: newAuthUser.email,
+        token: newAuthUser.token
       },
     });
   } catch (error) {
