@@ -20,11 +20,23 @@ const middlewareAuth = async (req, res, next) => {
       return;
     }
 
-    req.user = user;
+    req.user = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      avatarURL: user.avatarURL,
+      phone: user.phone,
+      skype: user.skype,
+      birthday: user.birthday,
+      role: user.role,
+      theme: user.theme,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    }
+   
     next();
   } catch (error) {
-    console.log(error.message);
-    res.status(401).json({ status: 401, message: "Not authorized" });
+    res.status(500).json({ status: 500, message: error.message });
   }
 };
 
