@@ -735,6 +735,11 @@
           "user": {
             "type": "object",
             "properties": {
+              "_id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "64f147f395ed4c02510fa24c"
+              },
               "name": {
                 "type": "string",
                 "description": "User's name",
@@ -792,6 +797,7 @@
           "status": 200,
           "message": "Success",
           "user": {
+            "_id": "64f147f395ed4c02510fa24c",
             "name": "Name Surname",
             "email": "user@example.com",
             "avatarURL": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
