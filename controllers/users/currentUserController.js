@@ -20,7 +20,7 @@ const currentUserController = async (req, res) => {
         avatarURL: user.avatarURL,
         phone: user.phone,
         skype: user.skype,
-        birthdate: user.birthday,
+        birthday: user.birthday,
         role: user.role,
         theme: user.theme,
         createdAt: user.createdAt,
