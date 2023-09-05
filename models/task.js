@@ -1,5 +1,6 @@
 const { model, Schema } = require("mongoose");
 const Joi = require("joi");
+const { validateJoiStartEndTime } = require("../services")
 
 const dateRegexp = /^\d{4}-\d{2}-\d{2}$/;
 const timeRegexp = /^\d{2}:\d{2}$/;
@@ -73,6 +74,8 @@ const addTaskJoiSchema = Joi.object({
   priority: Joi.string().valid("low", "medium", "high").required(),
   date: Joi.date().iso().min("2023-01-01").required(),
   category: Joi.string().valid("to-do", "in-progress", "done").required(),
+}).custom(validateJoiStartEndTime).messages({
+  "any.invalid": "Start time must be less than end time"
 });
 
 const updateTaskJoiSchema = Joi.object({

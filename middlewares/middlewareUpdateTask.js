@@ -1,5 +1,5 @@
 const { updateTaskJoiSchema, Task } = require("../models/task");
-const { validateDate } = require("../services");
+const { validateDate, convertTimeToMinutes } = require("../services");
 
 const middlewareUpdateTask = async (req, res, next) => {
   try {
@@ -34,7 +34,7 @@ const middlewareUpdateTask = async (req, res, next) => {
     }
 
     if (start && end) {
-      if (start >= end) {
+      if (convertTimeToMinutes(start) >= convertTimeToMinutes(end)) {
         res.status(400).json({
           status: 400,
           message: "Start time must be less than end time",
@@ -44,7 +44,7 @@ const middlewareUpdateTask = async (req, res, next) => {
     }
 
     if (start && !end) {
-      if (start >= task.end) {
+      if (convertTimeToMinutes(start) >= convertTimeToMinutes(task.end)) {
         res.status(400).json({
           status: 400,
           message: "Start time must be less than end time",
@@ -54,7 +54,7 @@ const middlewareUpdateTask = async (req, res, next) => {
     }
 
     if (!start && end) {
-      if (task.start >= end) {
+      if (convertTimeToMinutes(task.start) >= convertTimeToMinutes(end)) {
         res.status(400).json({
           status: 400,
           message: "Start time must be less than end time",
