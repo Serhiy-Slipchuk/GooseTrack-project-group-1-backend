@@ -10,6 +10,7 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
+      match: nameRegexp,
       required: [true, "Enter user name"],
     },
     password: {
@@ -28,6 +29,7 @@ const userSchema = new Schema(
     },
     phone: {
       type: String,
+      match: phoneRegexp,
       default: "",
     },
     skype: {
