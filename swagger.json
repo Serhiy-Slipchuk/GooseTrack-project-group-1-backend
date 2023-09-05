@@ -310,10 +310,6 @@
             "description": "Not authorized",
             "content": {}
           },
-          "404": {
-            "description": "User ${name} have no any review",
-            "content": {}
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {}
@@ -524,8 +520,12 @@
             "description": "Not Found",
             "content": {}
           },
+          "403": {
+            "description": "Forbidden. You have no necessary permissions to update task owner",
+            "content": {}
+          },
           "423": {
-            "description": "Locked. You have no necessary permissions to update task owner",
+            "description": "Locked. You have no necessary permissions to update this task",
             "content": {}
           },
           "500": {
@@ -571,6 +571,10 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {}
+          },
+          "423": {
+            "description": "Locked. You have no necessary permissions to remove this task",
             "content": {}
           },
           "500": {
@@ -639,6 +643,11 @@
                 "example": "user@example.com"
               }
             }
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "String"
           }
         },
         "example": {
@@ -647,7 +656,8 @@
           "user": {
             "name": "Name Surname",
             "email": "user@example.com"
-          }
+          },
+          "token": "string"
         }
       },
 

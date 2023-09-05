@@ -26,9 +26,9 @@ const middlewareUpdateTask = async (req, res, next) => {
     }
 
     if (owner) {
-      res.status(423).json({
-        status: 423,
-        message: `Locked. You have no necessary permissions to update task owner`,
+      res.status(403).json({
+        status: 403,
+        message: `Forbidden. You have no necessary permissions to update task owner`,
       });
       return;
     }
