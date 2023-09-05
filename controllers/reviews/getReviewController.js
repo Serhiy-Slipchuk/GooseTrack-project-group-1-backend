@@ -13,7 +13,6 @@ const getReviewController = async (req, res) => {
         status: 200,
         message: `User ${name} have no review`,
         review: {}
-
       });
       return;
     }
