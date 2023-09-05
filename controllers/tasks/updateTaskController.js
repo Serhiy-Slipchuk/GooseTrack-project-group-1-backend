@@ -4,13 +4,14 @@ const updateTaskController = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const task = await Task.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedTask = await Task.findByIdAndUpdate(id, req.body, { new: true });
 
     res.status(200).json({
       status: 200,
       message: "Success",
-      task,
+      task: updatedTask,
     });
+
   } catch (error) {
     res.status(500).json({ status: 500, message: error.message });
   }
