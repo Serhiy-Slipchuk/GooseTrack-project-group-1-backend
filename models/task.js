@@ -52,8 +52,18 @@ const Task = model("task", taskSchema);
 
 const addTaskJoiSchema = Joi.object({
   title: Joi.string().max(250).required(),
-  start: Joi.string().pattern(timeRegexp).required(),
-  end: Joi.string().pattern(timeRegexp).required(),
+  start: Joi.string().pattern(timeRegexp).required().empty(false).messages({
+    "string.base": "The start time must be a string.",
+    "any.required": "The start time field is required.",
+    "string.empty": "The start time must not be empty.",
+    "string.pattern.base": "The start time must be in format hh:mm (example: 12:50)"
+  }),
+  end: Joi.string().pattern(timeRegexp).required().empty(false).messages({
+    "string.base": "The end time must be a string.",
+    "any.required": "The end time field is required.",
+    "string.empty": "The end time must not be empty.",
+    "string.pattern.base": "The end time must be in format hh:mm (example: 12:50)"
+  }),
   priority: Joi.string().valid("low", "medium", "high").required(),
   date: Joi.date().iso().min("2023-01-01").required(),
   category: Joi.string().valid("to-do", "in-progress", "done").required(),
@@ -61,8 +71,16 @@ const addTaskJoiSchema = Joi.object({
 
 const updateTaskJoiSchema = Joi.object({
   title: Joi.string().max(250),
-  start: Joi.string().pattern(timeRegexp),
-  end: Joi.string().pattern(timeRegexp),
+  start: Joi.string().pattern(timeRegexp).empty(false).messages({
+    "string.base": "The start time must be a string.",
+    "string.empty": "The start time must not be empty.",
+    "string.pattern.base": "The start time must be in format hh:mm (example: 12:50)"
+  }),
+  end: Joi.string().pattern(timeRegexp).empty(false).messages({
+    "string.base": "The end time must be a string.",
+    "string.empty": "The end time must not be empty.",
+    "string.pattern.base": "The end time must be in format hh:mm (example: 12:50)"
+  }),
   priority: Joi.string().valid("low", "medium", "high"),
   date: Joi.date().iso().min("2023-01-01"),
   category: Joi.string().valid("to-do", "in-progress", "done"),
